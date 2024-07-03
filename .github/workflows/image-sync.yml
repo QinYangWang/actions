@@ -13,8 +13,8 @@ jobs:
         uses: actions/checkout@v3
       - uses: hhyasdf/image-sync-action@v1.1
         with:
-          auth_file: ./image-sync/auth.yaml
-          images_file: ./image-sync/images.yaml
+          auth_file: ./image-sync/auth.yml
+          images_file: ./image-sync/images.yml
           version: latest
           proc: 20
         env:
