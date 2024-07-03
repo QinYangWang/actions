@@ -1,0 +1,3 @@
+registry.cn-hangzhou.aliyuncs.com:
+  username: ${ACR_USERNAME}
+  password: ${ACR_PASSWORD}
