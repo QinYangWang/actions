@@ -30,14 +30,6 @@ jobs:
         DEST_USERNAME: ${{ secrets.ACR_USERNAME }}
         DEST_PASSWORD: ${{ secrets.ACR_PASSWORD }}
       run: |
-        # 目标注册表的用户名和密码
-        DEST_USERNAME=${{ secrets.ACR_USERNAME }}
-        DEST_PASSWORD=${{ secrets.ACR_PASSWORD }}
-
-        # 调试信息
-        echo "DEST_USERNAME: $DEST_USERNAME"
-        echo "DEST_PASSWORD: $DEST_PASSWORD"
-
         # 检查用户名和密码是否为空
         if [ -z "$DEST_USERNAME" ]; then
           echo "Error: DEST_USERNAME is empty"
@@ -48,6 +40,9 @@ jobs:
           echo "Error: DEST_PASSWORD is empty"
           exit 1
         fi
+        # 调试信息
+        echo "DEST_USERNAME: $DEST_USERNAME"
+
         IMAGES=(
           "docker.io/library/aultwarden/server:alpine registry.cn-hangzhou.aliyuncs.com/miaou/vaultwarden:alpine"
         )
