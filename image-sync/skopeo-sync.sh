@@ -24,6 +24,7 @@ fi
 while read IMAGE || [[ -n $IMAGE ]]; do
   SOURCE_IMAGE=$(echo $IMAGE | awk '{gsub(/^[ \t\r\n]+|[ \t\r\n]+$/, ""); print}' | awk '{print $1}')
   DEST_IMAGE=$(echo $IMAGE | awk '{gsub(/^[ \t\r\n]+|[ \t\r\n]+$/, ""); print}' | awk '{print $2}')
+  echo "======================================================================================================================================="
   echo "Syncing $SOURCE_IMAGE to $DEST_IMAGE"
-  echo $DEST_PASSWORD | skopeo copy --dest-creds $DEST_USERNAME:$(cat) docker://$SOURCE_IMAGE docker://$DEST_IMAGE
+  skopeo copy --dest-creds $DEST_USERNAME:$DEST_PASSWORD docker://$SOURCE_IMAGE docker://$DEST_IMAGE
 done < "$IMAGES_FILE"
