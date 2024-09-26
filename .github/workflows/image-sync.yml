@@ -29,27 +29,4 @@ jobs:
       env:
         DEST_USERNAME: ${{ secrets.ACR_USERNAME }}
         DEST_PASSWORD: ${{ secrets.ACR_PASSWORD }}
-      run: |
-        # 检查用户名和密码是否为空
-        if [ -z "$DEST_USERNAME" ]; then
-          echo "Error: DEST_USERNAME is empty"
-          exit 1
-        fi
-
-        if [ -z "$DEST_PASSWORD" ]; then
-          echo "Error: DEST_PASSWORD is empty"
-          exit 1
-        fi
-        # 调试信息
-        echo "DEST_USERNAME: $DEST_USERNAME"
-
-        IMAGES=(
-          "docker.io/vaultwarden/server:alpine registry.cn-hangzhou.aliyuncs.com/miaou/vaultwarden:alpine"
-        )
-        for IMAGE in "${IMAGES[@]}"; do
-          SOURCE_IMAGE=$(echo $IMAGE | awk '{print $1}')
-          DEST_IMAGE=$(echo $IMAGE | awk '{print $2}')
-          echo "Syncing $SOURCE_IMAGE to $DEST_IMAGE"
-          echo $DEST_USERNAME
-          echo $DEST_PASSWORD | skopeo copy --dest-creds $DEST_USERNAME:$(cat) docker://$SOURCE_IMAGE docker://$DEST_IMAGE
-        done
+      run: bash ./image-sync/skopeo-sync.sh ./image-sync/images.txt $DEST_USERNAME $DEST_PASSWORD

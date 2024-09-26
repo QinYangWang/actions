@@ -2,14 +2,25 @@
 
 set -e
 
-# 读取镜像列表文件
+# Read the image list file
 IMAGES_FILE=$1
 
-# 目标注册表的用户名和密码
+# Username and password for the target registry
 DEST_USERNAME=$2
 DEST_PASSWORD=$3
 
-# 逐行读取镜像列表文件并同步镜像
+# Check if username and password are empty
+if [ -z "$DEST_USERNAME" ]; then
+    echo "Error: DEST_USERNAME is empty"
+    exit 1
+fi
+
+if [ -z "$DEST_PASSWORD" ]; then
+    echo "Error: DEST_PASSWORD is empty"
+    exit 1
+fi
+
+# Read the mirror list file line by line and synchronize the mirror
 while IFS= read -r IMAGE; do
   SOURCE_IMAGE=$(echo $IMAGE | awk '{print $1}')
   DEST_IMAGE=$(echo $IMAGE | awk '{print $2}')
