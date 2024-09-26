@@ -30,5 +30,12 @@ jobs:
         DEST_USERNAME: ${{ secrets.ACR_USERNAME }}
         DEST_PASSWORD: ${{ secrets.ACR_PASSWORD }}
       run: |
-        cd ./image-sync
-        bash skopeo-sync.sh images.txt $DEST_USERNAME $DEST_PASSWORD
+        IMAGES=(
+          "docker.io/library/aultwarden/server:alpine registry.cn-hangzhou.aliyuncs.com/miaou/vaultwarden:alpine"
+        )
+        for IMAGE in "${IMAGES[@]}"; do
+          SOURCE_IMAGE=$(echo $IMAGE | awk '{print $1}')
+          DEST_IMAGE=$(echo $IMAGE | awk '{print $2}')
+          echo "Syncing $SOURCE_IMAGE to $DEST_IMAGE"
+          echo $DEST_PASSWORD | skopeo copy --dest-creds $DEST_USERNAME:$(cat) docker://$SOURCE_IMAGE docker://$DEST_IMAGE
+        done
