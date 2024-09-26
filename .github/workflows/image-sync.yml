@@ -10,6 +10,14 @@ on:
 jobs:
   sync-images:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        repository: [acr]  # 列出所有需要同步的存储库
+        include:
+          - repository: acr
+            DEST_REPOSITORY: ${{ secrets.ACR_REPOSITORY }}
+            DEST_USERNAME: ${{ secrets.ACR_USERNAME }}
+            DEST_PASSWORD: ${{ secrets.ACR_PASSWORD }}
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
@@ -27,6 +35,7 @@ jobs:
 
     - name: Sync Docker Images
       env:
-        DEST_USERNAME: ${{ secrets.ACR_USERNAME }}
-        DEST_PASSWORD: ${{ secrets.ACR_PASSWORD }}
-      run: bash ./image-sync/skopeo-sync.sh ./image-sync/images.txt $DEST_USERNAME $DEST_PASSWORD
+        DEST_REPOSITORY: ${{ matrix.DEST_REPOSITORY }}
+        DEST_USERNAME: ${{ matrix.DEST_USERNAME }}
+        DEST_PASSWORD: ${{ matrix.DEST_USERNAME }}
+      run: cd ./image-sync/ && bash skopeo-sync.sh $DEST_REPOSITORY $DEST_USERNAME $DEST_PASSWORD
