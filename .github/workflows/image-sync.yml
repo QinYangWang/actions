@@ -31,5 +31,4 @@ jobs:
         DEST_PASSWORD: ${{ secrets.ACR_PASSWORD }}
       run: |
         cd ./image-sync
-        chmod +x skopeo-sync.sh
-        ./skopeo-sync.sh images.txt $DEST_USERNAME $DEST_PASSWORD
+        bash skopeo-sync.sh images.txt $DEST_USERNAME $DEST_PASSWORD
