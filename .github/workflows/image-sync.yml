@@ -4,19 +4,34 @@ on:
   workflow_dispatch:
   schedule:
     - cron: "0 0 * * *"
-
+  push:
+    branches:
+      - main
 jobs:
   sync-images:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-      - uses: hhyasdf/image-sync-action@v1.1
-        with:
-          auth_file: ./image-sync/auth.yml
-          images_file: ./image-sync/images.yml
-          version: latest
-          proc: 20
-        env:
-          ACR_USERNAME:  ${{ secrets.ACR_USERNAME }}
-          ACR_PASSWORD:  ${{ secrets.ACR_PASSWORD }}
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Set up QEMU
+      uses: docker/setup-qemu-action@v3
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+
+    - name: Install Skopeo
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y skopeo
+
+    - name: Make skopeo-sync.sh executable
+      run: chmod +x skopeo-sync.sh
+
+    - name: Sync Docker Images
+      env:
+        DEST_USERNAME: ${{ secrets.ACR_USERNAME }}
+        DEST_PASSWORD: ${{ secrets.ACR_PASSWORD }}
+      run: |
+      cd ./image-sync
+      ./skopeo-sync.sh images.txt $DEST_USERNAME $DEST_PASSWORD
