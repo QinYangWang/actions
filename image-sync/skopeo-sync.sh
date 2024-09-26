@@ -21,7 +21,7 @@ if [ -z "$DEST_PASSWORD" ]; then
 fi
 
 # Read the mirror list file line by line and synchronize the mirror
-while IFS= read -r IMAGE; do
+while read IMAGE || [[ -n $IMAGE ]]; do
   SOURCE_IMAGE=$(echo $IMAGE | awk '{gsub(/^[ \t\r\n]+|[ \t\r\n]+$/, ""); print}' | awk '{print $1}')
   DEST_IMAGE=$(echo $IMAGE | awk '{gsub(/^[ \t\r\n]+|[ \t\r\n]+$/, ""); print}' | awk '{print $2}')
   echo "Syncing $SOURCE_IMAGE to $DEST_IMAGE"
