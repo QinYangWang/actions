@@ -31,8 +31,8 @@ jobs:
         DEST_PASSWORD: ${{ secrets.ACR_PASSWORD }}
       run: |
         # 目标注册表的用户名和密码
-        DEST_USERNAME=${DEST_USERNAME}
-        DEST_PASSWORD=${DEST_PASSWORD}
+        DEST_USERNAME=${{ secrets.ACR_USERNAME }}
+        DEST_PASSWORD=${{ secrets.ACR_PASSWORD }}
 
         # 调试信息
         echo "DEST_USERNAME: $DEST_USERNAME"
