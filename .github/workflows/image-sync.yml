@@ -33,5 +33,5 @@ jobs:
         DEST_USERNAME: ${{ secrets.ACR_USERNAME }}
         DEST_PASSWORD: ${{ secrets.ACR_PASSWORD }}
       run: |
-      cd ./image-sync
-      ./skopeo-sync.sh images.txt $DEST_USERNAME $DEST_PASSWORD
+        cd ./image-sync
+        ./skopeo-sync.sh images.txt $DEST_USERNAME $DEST_PASSWORD
