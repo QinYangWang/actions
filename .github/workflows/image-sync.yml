@@ -44,7 +44,7 @@ jobs:
         echo "DEST_USERNAME: $DEST_USERNAME"
 
         IMAGES=(
-          "docker.io/library/aultwarden/server:alpine registry.cn-hangzhou.aliyuncs.com/miaou/vaultwarden:alpine"
+          "docker.io/vaultwarden/server:alpine registry.cn-hangzhou.aliyuncs.com/miaou/vaultwarden:alpine"
         )
         for IMAGE in "${IMAGES[@]}"; do
           SOURCE_IMAGE=$(echo $IMAGE | awk '{print $1}')
