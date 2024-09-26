@@ -25,13 +25,11 @@ jobs:
         sudo apt-get update
         sudo apt-get install -y skopeo
 
-    - name: Make skopeo-sync.sh executable
-      run: chmod +x skopeo-sync.sh
-
     - name: Sync Docker Images
       env:
         DEST_USERNAME: ${{ secrets.ACR_USERNAME }}
         DEST_PASSWORD: ${{ secrets.ACR_PASSWORD }}
       run: |
         cd ./image-sync
+        chmod +x skopeo-sync.sh
         ./skopeo-sync.sh images.txt $DEST_USERNAME $DEST_PASSWORD
