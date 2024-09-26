@@ -1,2 +1,0 @@
-docker.io/vaultwarden/server:alpine: registry.cn-hangzhou.aliyuncs.com/miaou/vaultwarden:alpine
-docker.io/nocodb/nocodb:latest: registry.cn-hangzhou.aliyuncs.com/miaou/nocodb:latest
